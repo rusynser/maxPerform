@@ -11,7 +11,7 @@ const AddUserForm = ({ show, handleClose, projectId }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:4000/api/projects/${}/addUser`, {
+      const response = await fetch(`http://localhost:4000/api/projects/${projectId}/addUser`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
