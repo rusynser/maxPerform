@@ -91,24 +91,39 @@ export const addUserToProject = async (req, res) => {
     const { username } = req.body;
 
     try {
-        const user = await UserDao.findUserByUsername(username);
+        const user = await UserDao.findUserByName(username);
         if (!user) {
             return res.status(404).send('User not found');
         }
-
-        // Check if the user is a freelancer
-        if (user.role !== 'freelancer') {
-            return res.status(403).send('User is not a freelancer');
+        if(user.role!="freelancer"){return res.status(404).send('User is not freelancer!');}
+        const project = await ProjectDao.getProjectById(new ObjectId(projectId));
+        if (!project) {
+            return res.status(404).send('Project not found');
         }
 
-        const userId = user._id;
-        const result = await ProjectDao.addUserToProject(projectId, userId);
-        if (result.modifiedCount === 0) {
-            return res.status(404).send('Project not found or User already added');
+        // Convert user._id to string for consistency, if necessary
+        const userId = user._id.toString();
+        
+        // Check if the user is already added to the project
+        if (project.solvers && project.solvers.includes(userId)) {
+            return res.status(400).send('User already added');
         }
+
+        // Use the DAO method to add the user to the project
+        await ProjectDao.addUserToProject(projectId, userId);
 
         res.status(200).send('User added to project successfully');
     } catch (error) {
         res.status(500).send('Error adding user to project: ' + error.message);
+    }
+};
+export const getProjectsBySolver = async (req, res) => {
+    const userId = req.params.userId; // or get userId from req.user if using authentication
+
+    try {
+        const projects = await ProjectDao.findProjectsBySolver(userId);
+        res.json(projects);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching projects: ' + error.message });
     }
 };

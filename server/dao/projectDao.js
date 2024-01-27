@@ -1,5 +1,5 @@
 import { client, dbName } from '../db/db.js';
-
+import { ObjectId } from 'mongodb';
 class ProjectDao {
     constructor() {
         this.db = client.db(dbName);
@@ -25,7 +25,8 @@ class ProjectDao {
 
     async getProjectById(id) {
         try {
-            return await this.collection.findOne({ _id: id });
+            const objectId = new ObjectId(id); 
+            return await this.collection.findOne({ _id: objectId });
         } catch (error) {
             console.error('Error finding project:', error);
         }
@@ -42,13 +43,15 @@ class ProjectDao {
 
     async addUserToProject(projectId, userId) {
         try {
+            // Update the project to add the user ID to the solvers array
             const result = await this.collection.updateOne(
-                { _id: projectId },
-                { $addToSet: { solvers: userId } }
+                { _id: new ObjectId(projectId) },
+                { $addToSet: { solvers: userId } } // Use $addToSet to prevent duplicates
             );
             return result;
         } catch (error) {
             console.error('Error adding user to project:', error);
+            throw error; // Rethrow the error for handling in the controller
         }
     }
 
@@ -64,6 +67,14 @@ class ProjectDao {
         try {
             return await this.collection.find({ user: userId }).toArray(); 
         } catch (error) {
+            throw error;
+        }
+    }
+    async findProjectsBySolver(userId) {
+        try {
+            return await this.collection.find({ solvers: userId }).toArray();
+        } catch (error) {
+            console.error('Error finding projects for solver:', error);
             throw error;
         }
     }

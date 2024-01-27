@@ -21,23 +21,25 @@ function Home  () {
 
   
   
-    const fetchProjects = async () => {
-        if (userData && userData.userId) {
-            try {
-                const response = await fetch(`http://localhost:4000/api/projects/user/${userData.userId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setProjects(data);
-                } else {
-                    // Handle response errors
-                    console.error('Failed to fetch projects');
-                }
-            } catch (error) {
-                // Handle request errors
-                console.error('Error fetching projects:', error);
+  const fetchProjects = async () => {
+    if (userData && userData.userId) {
+        const roleBasedUrl = userData.userRole === 'customer'
+            ? `http://localhost:4000/api/projects/user/${userData.userId}`
+            : `http://localhost:4000/api/projects/solver/${userData.userId}`;
+
+        try {
+            const response = await fetch(roleBasedUrl);
+            if (response.ok) {
+                const data = await response.json();
+                setProjects(data);
+            } else {
+                console.error('Failed to fetch projects', await response.text());
             }
+        } catch (error) {
+            console.error('Error fetching projects:', error);
         }
-    };
+    }
+};
 useEffect(() => {
     fetchProjects();
 }, [userData]);

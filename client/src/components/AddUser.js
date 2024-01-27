@@ -18,7 +18,7 @@ const AddUserForm = ({ show, handleClose, projectId }) => {
         },
         credentials: 'include', // Important for sessions
 
-        body: JSON.stringify({ username: newUser }),
+        body: JSON.stringify({ username: newUser}),
       });
 
       if (response.ok) {

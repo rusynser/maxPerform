@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, ListGroup, Form, Dropdown, DropdownButton, ButtonGroup } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
+import { useUser } from '../contexts/UserContex'
 import Projects from '../project_data.json';
 import CreateTaskForm from '../components/CreateTaskForm';
 import AddUserForm from  '../components/AddUser';
@@ -10,6 +11,7 @@ import CommentForm from  '../components/Comment';
 import NavigationForPages from "../components/NavigationForPages";
 
 const TaskPage = () => {
+  const { userData } = useUser()
   const { projectId } = useParams();
   const selectedProject = Projects.find((project) => project.id === projectId && project !== null);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -155,14 +157,16 @@ const TaskPage = () => {
             style={{ fontSize: "1.1rem", marginLeft: "1300px", marginTop:"-100px" }}
             class="btn btn-primary btn-lg"
             onClick={() => setShowCreateModal(true)}
+            
           >
             Create Task
           </Button>
           <Button
       
-            style={{ fontSize: "1.1rem", marginLeft: "1190px", marginTop:"-150px", padding:"18px 10px" }}
-            class="btn btn-primary btn-lg"
+      style={{ fontSize: "1.1rem", marginLeft: "1190px", marginTop:"-150px", padding:"18px 10px" }}
+      class="btn btn-primary btn-lg"
             onClick={() => setShowAddUserModal(true)}
+            disabled={userData.userRole !== 'customer'}
           >
             Add User
           </Button>
@@ -218,10 +222,11 @@ const TaskPage = () => {
           }}
           />
 
-<AddUserForm
+<AddUserForm projectId={projectId} 
            show={showAddUserModal}
            handleClose={() => {
             setShowAddUserModal(false);
+            
           }}
           />
 

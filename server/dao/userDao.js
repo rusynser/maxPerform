@@ -23,7 +23,9 @@ class User {
   async findUserByUsername(email) {
       return await this.collection.findOne({ email });
   }
-
+  async findUserByName(username) {
+    return await this.collection.findOne({ username });
+}
     // Additional methods like update, delete, etc. can be added here
 }
 
