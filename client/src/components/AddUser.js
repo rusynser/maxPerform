@@ -1,56 +1,66 @@
 import React, { useState } from 'react';
-import { Modal, Button, ModalFooter} from 'react-bootstrap';
+import { Modal, Button, Form, ModalFooter } from 'react-bootstrap';
 
-
-const AddUserForm = ({show, handleClose}) => {
+const AddUserForm = ({ show, handleClose, projectId }) => {
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState('');
 
-  const handleSendUser = () => {
+  const handleSendUser = async () => {
     if (newUser.trim() === '') {
       return;
     }
 
-    setUsers([...users, { text: newUser, sender: 'customer' }]);
-    setNewUser('');
+    try {
+      const response = await fetch(`http://localhost:4000/api/projects/${}/addUser`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Important for sessions
+
+        body: JSON.stringify({ username: newUser }),
+      });
+
+      if (response.ok) {
+        setUsers([...users, { text: newUser, sender: 'customer' }]);
+        setNewUser('');
+      } else {
+        console.error('Failed to add user');
+      }
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
   };
+
   return (
-  <Modal show={show} onHide={handleClose} size="lg">
-      <Modal.Header>
-        <Modal.Title style={{ fontSize: '2rem' }}>Add user</Modal.Title>
+    <Modal show={show} onHide={handleClose} size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title style={{ fontSize: '2rem' }}>Add User</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-    <div>
-      <div> 
-        {users.map((Customer, index) => (
-          <div key={index} className={Customer.sender === 'user' ? 'user-User' : 'bot-User'} class="alert alert-dark" role="alert">
-            {Customer.text}
-          </div>
-          
-        ))}
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          value={newUser}
-          aria-label="Recipient's username" 
-          aria-describedby="basic-addon2"
-          onChange={(e) => setNewUser(e.target.value)}
-          placeholder="Enter a User"
-        />
-        <div class="input-group-append">
-        <button class="btn btn-outline-secondary" onClick={handleSendUser}>Add</button>
+        <div>
+          {users.map((user, index) => (
+            <div key={index} className="alert alert-dark" role="alert">
+              {user.text}
+            </div>
+          ))}
+          <Form.Group className="input-group mb-3">
+            <Form.Control
+              type="text"
+              value={newUser}
+              onChange={(e) => setNewUser(e.target.value)}
+              placeholder="Enter a User"
+            />
+            <div className="input-group-append">
+              <Button variant="outline-secondary" onClick={handleSendUser}>Add</Button>
+            </div>
+          </Form.Group>
         </div>
-      </div>
-    </div>
-    <ModalFooter>
-    <Button variant="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
-    </ModalFooter>
+        <ModalFooter>
+          <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+        </ModalFooter>
       </Modal.Body>
-      </Modal>
+    </Modal>
   );
 };
 

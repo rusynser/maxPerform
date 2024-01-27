@@ -18,6 +18,6 @@ router.delete('/:id', projectController.deleteProject);
 router.post('/:projectId/tasks',checkRole('freelancer'), projectController.createTaskForProject);
 router.get('/:projectId/tasks', projectController.getTasksForProject);
 router.get('/user/:userId', projectController.getProjectsByUser);
-
+router.post('/projects/:projectId/addUser/:userId', projectController.addUserToProject);
 
 export default router;
