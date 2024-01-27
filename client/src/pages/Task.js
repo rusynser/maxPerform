@@ -160,7 +160,7 @@ const TaskPage = () => {
           </Button>
           <Button
       
-            style={{ fontSize: "1.1rem", marginLeft: "1300px", marginTop:"-300px" }}
+            style={{ fontSize: "1.1rem", marginLeft: "1190px", marginTop:"-150px", padding:"18px 10px" }}
             class="btn btn-primary btn-lg"
             onClick={() => setShowAddUserModal(true)}
           >
