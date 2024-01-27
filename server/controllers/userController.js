@@ -7,7 +7,7 @@ export const registerUser = async (req, res) => {
     try {
         const { username, password, userRole = 'user' ,email} = req.body; // Default role is 'user'
         // Check if the user already exists
-        const existingUser = await User.findUserByUsername(username);
+        const existingUser = await User.findUserByUsername(email);
         if (existingUser) {
             return res.status(409).json({ message: 'User already exists' }); // 409 Conflict
         }

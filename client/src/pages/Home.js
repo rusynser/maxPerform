@@ -4,6 +4,8 @@ import CreateProject from "../components/CreateProject";
 import { Link,useNavigate  } from "react-router-dom";
 import Projects from "../project_data.json";
 import { useUser } from '../contexts/UserContex'
+import AddUserForm from  '../components/AddUser';
+import NavigationForPages from "../components/NavigationForPages";
 
 
 function Home  () {
@@ -13,6 +15,7 @@ function Home  () {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateProjectId, setUpdateProjectId] = useState(null);
   const [updateProjectName, setUpdateProjectName] = useState("");
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [updateProjectDescription, setUpdateProjectDescription] = useState("");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const navigate = useNavigate();
@@ -110,7 +113,9 @@ useEffect(() => {
 };
 
   return (
-    <div style={{ background: "#40E0D0", padding: "20px", minHeight: "100vh" }}>
+    <div>
+      <NavigationForPages/>
+    <div style={{ background: "#70DFE0", padding: "20px", minHeight: "100vh" }}>
       <h2 className="mb-4">Main Page</h2>
 
       <div className="mb-3">
@@ -212,6 +217,14 @@ useEffect(() => {
                   >
                     Delete
                   </Button>
+                  <Button
+            variant="info"
+            className="ml-2"
+            style={{ fontSize: "1.1rem", padding: "5px 12px" }}
+            onClick={() => setShowAddUserModal(true)}
+          >
+            Add User
+          </Button>
                 </Card.Body>
                 <Card.Footer className="text-muted">{/* Any additional info */}</Card.Footer>
               </Card>
@@ -226,6 +239,13 @@ useEffect(() => {
   handleCreate={handleCreateProject}
   
 />
+
+          <AddUserForm
+           show={showAddUserModal}
+           handleClose={() => {
+            setShowAddUserModal(false);
+          }}
+          />
 
       <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)} dialogClassName="modal-90w">
         <Modal.Header closeButton>
@@ -269,6 +289,7 @@ useEffect(() => {
           </Button>
         </Modal.Footer>
       </Modal>
+    </div>
     </div>
   );
 };

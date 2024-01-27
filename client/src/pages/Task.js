@@ -7,6 +7,7 @@ import CreateTaskForm from '../components/CreateTaskForm';
 import TaskDetail from '../components/TaskDetail';
 import EditTaskForm from "../components/EditTaskForm";
 import CommentForm from  '../components/Comment';
+import NavigationForPages from "../components/NavigationForPages";
 
 const TaskPage = () => {
   const { projectId } = useParams();
@@ -90,10 +91,12 @@ const TaskPage = () => {
     return stateFilter && priorityFilter;
   });
 
-  const stateOptions = ['Waiting', 'InProgress', 'Solved','all'];
+  const stateOptions = ['Waiting', 'In progress', 'Solved','all'];
   const priorityOptions = ['Must Have', 'Should Have', 'Could Have','Dont Have','all'];
 
   return (
+    <div>
+      <NavigationForPages/>
     <div style={{ padding: '20px', maxWidth: '1450px', margin: 'auto' }}>
       <h2>Projects detail</h2>
       {projectId && <h5> {projectId}</h5>}
@@ -225,6 +228,7 @@ const TaskPage = () => {
           )}
         </>
       )}
+    </div>
     </div>
   );
 };

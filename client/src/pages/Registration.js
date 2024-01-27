@@ -1,9 +1,9 @@
 import { useState} from 'react'; // Import React if needed
-import { Link } from 'react-router-dom'; // Import Link
+import { Link, useNavigate} from 'react-router-dom'; // Import Link
 import { Button, Form, Alert } from 'react-bootstrap';
 import "./styles.css";
 import Validation from '../components/Validation';
-
+import Navigation from '../components/Navigation';
 
 function RegistrationPage () {
   const [values, setValues] = useState({
@@ -18,6 +18,8 @@ function RegistrationPage () {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const [errors, setErrors] = useState({})
+  const navigate = useNavigate();
+  
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
@@ -45,6 +47,7 @@ function RegistrationPage () {
             const data = await response.json();
             console.log('Registration successful:', data);
             // Handle successful registration
+            navigate('/');
         } else {
             // Handle errors
             console.log('Registration failed');
@@ -65,6 +68,8 @@ function RegistrationPage () {
   }
 
 return (
+  <div>
+    <Navigation/>
     <div className='row g-0 vh-100 justify-content-center align-items-center sign-up-container'>
       <div className='col-10 row g-0 align-items-center border rounded-3 bg-white'>
         <div className='col-6'>
@@ -85,6 +90,7 @@ return (
               {errors.name && <p style={{color:"red"}}>{errors.name}</p>}
           </div>
               <select className="form-select mb-5" aria-label="Default select example" onChange={(e)=> {setUserRole(e.target.value)}}>
+                <option value="">Choose role</option>
                 <option value="customer">Customer</option>
                 <option value="freelancer">Freelancer</option>
             </select>
@@ -128,9 +134,11 @@ return (
               </div>
           
           <div className='text-center'>
+        
             <button type='submit' className='sign-up-btn py-3 rounded-4'>
               Registrate
             </button>
+          
           </div>
 
           <div className='text-center mt-5'>
@@ -139,6 +147,7 @@ return (
 
         </form>
       </div>
+    </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Navigation() {
+function NavigationForPages() {
   const breadcrumbStyle = {
     background: '#40E0D0',
     padding: '25px',
@@ -18,19 +18,16 @@ function Navigation() {
 
   return (
     <div style={breadcrumbStyle}>
-     <a class="nav-link">
+      <a class="nav-link">
         <Link to="/projects" style={linkStyle}>Projects</Link>
-        </a>
+     </a>
       <div style={{ marginLeft: 'auto', display: 'flex', gap: '20px' }}>
        <a class="nav-link">
-          <Link to="/registration" style={linkStyle}>Registration</Link>
-          </a>
-        <a class="nav-link">
-          <Link to="/" style={linkStyle}>Login</Link>
-          </a>
+          <Link to="/" style={linkStyle}>Log out</Link>
+       </a>
       </div>
     </div>
   );
 }
 
-export default Navigation;
+export default NavigationForPages

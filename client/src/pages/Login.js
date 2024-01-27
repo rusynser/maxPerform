@@ -3,10 +3,9 @@ import { Link,useNavigate   } from 'react-router-dom'; // Import Link
 import { Button, Form, Alert } from 'react-bootstrap';
 import "./styles.css";
 import { useUser } from '../contexts/UserContex';
-
+import Navigation from '../components/Navigation';
 
 function  LoginPage() {
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { userData, setUserData } = useUser();
@@ -41,7 +40,9 @@ function  LoginPage() {
         }
     };
    
-  return (
+  return ( 
+    <div>
+       <Navigation/>
     <div className='row g-0 vh-100 justify-content-center align-items-center login-container'>
       <div className='col-10 row g-0 align-items-center border rounded-2 bg-white'>
         <div className='col-6'>
@@ -71,6 +72,7 @@ function  LoginPage() {
 
         </form>
       </div>
+    </div>
     </div>
   );
 };

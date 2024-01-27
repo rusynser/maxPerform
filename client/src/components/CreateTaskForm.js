@@ -5,8 +5,8 @@ function CreateTaskForm({ show, handleClose, handleCreateTask }) {
   const { userData } = useUser();
   const [newTaskName, setNewTaskName] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
-  const [newTaskPriority, setNewTaskPriority] = useState("must-have");
-  const [newTaskState, setNewTaskState] = useState("in-progress");
+  const [newTaskPriority, setNewTaskPriority] = useState("Must Have");
+  const [newTaskState, setNewTaskState] = useState("In progress");
   const [newTaskTime, setNewTaskTime] = useState(""); 
   const [newTaskTags, setNewTaskTags] = useState(""); 
 
@@ -26,8 +26,8 @@ function CreateTaskForm({ show, handleClose, handleCreateTask }) {
     // Clear the form fields
     setNewTaskName('');
     setNewTaskDescription('');
-    setNewTaskPriority('must-have');
-    setNewTaskState('in-progress');
+    setNewTaskPriority('Must Have');
+    setNewTaskState('In progress');
     setNewTaskTime('');
     setNewTaskTags('');
     handleClose();
@@ -69,10 +69,10 @@ function CreateTaskForm({ show, handleClose, handleCreateTask }) {
               value={newTaskPriority}
               onChange={(e) => setNewTaskPriority(e.target.value)}
             >
-              <option value="must-have">Must Have</option>
-              <option value="should-have">Should Have</option>
-              <option value="could-have">Could Have</option>
-              <option value="dont-have">Don't Have</option>
+              <option value="Must Have">Must Have</option>
+              <option value="Should Have">Should Have</option>
+              <option value="Could Have">Could Have</option>
+              <option value="Dont Have">Don't Have</option>
             </Form.Control>
           </Form.Group>
 
@@ -84,9 +84,9 @@ function CreateTaskForm({ show, handleClose, handleCreateTask }) {
               value={newTaskState}
               onChange={(e) => setNewTaskState(e.target.value)}
             >
-              <option value="in-progress">In Progress</option>
-              <option value="solved">Solved</option>
-              <option value="waiting">Waiting</option>
+              <option value="In progress">In Progress</option>
+              <option value="Solved">Solved</option>
+              <option value="Waiting">Waiting</option>
             </Form.Control>
           </Form.Group>
 
