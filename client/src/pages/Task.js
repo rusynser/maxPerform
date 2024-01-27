@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Button, ListGroup, Form, Dropdown, DropdownButton, ButtonGroup } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 import Projects from '../project_data.json';
-import Tasks from '../task_data.json';
 import CreateTaskForm from '../components/CreateTaskForm';
+import AddUserForm from  '../components/AddUser';
 import TaskDetail from '../components/TaskDetail';
 import EditTaskForm from "../components/EditTaskForm";
 import CommentForm from  '../components/Comment';
@@ -16,6 +16,7 @@ const TaskPage = () => {
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showTaskDetail, setShowTaskDetail] = useState(false);
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [selectedState, setSelectedState] = useState('all');
@@ -157,6 +158,14 @@ const TaskPage = () => {
           >
             Create Task
           </Button>
+          <Button
+      
+            style={{ fontSize: "1.1rem", marginLeft: "1300px", marginTop:"-300px" }}
+            class="btn btn-primary btn-lg"
+            onClick={() => setShowAddUserModal(true)}
+          >
+            Add User
+          </Button>
           <ListGroup>
             {filteredTasks.map((task) => (
               <ListGroup.Item key={task.id} style={{fontSize:"1.2rem", borderWidth:"2.5px"}}>
@@ -206,6 +215,13 @@ const TaskPage = () => {
            handleClose={() => {
             setShowCommentModal(false);
             setSelectedTask(null);
+          }}
+          />
+
+<AddUserForm
+           show={showAddUserModal}
+           handleClose={() => {
+            setShowAddUserModal(false);
           }}
           />
 
