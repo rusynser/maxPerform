@@ -9,7 +9,6 @@ function NavigationForPages() {
     justifyContent: 'space-between',
     alignItems: 'center',
   };
-
   const linkStyle = {
     color: 'black',
     textDecoration: 'none',

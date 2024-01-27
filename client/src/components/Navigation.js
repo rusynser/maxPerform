@@ -24,6 +24,7 @@ function Navigation() {
       <div style={{ marginLeft: 'auto', display: 'flex', gap: '20px' }}>
        <a class="nav-link">
           <Link to="/registration" style={linkStyle}>Registration</Link>
+        
           </a>
         <a class="nav-link">
           <Link to="/" style={linkStyle}>Login</Link>
