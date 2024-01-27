@@ -33,6 +33,15 @@ function RegistrationPage () {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    handleValidation(event);
+
+  // Проверяем наличие ошибок валидации
+  if (Object.keys(errors).length > 0) {
+    console.log('Валидация не пройдена');
+    return;
+  }
+
     try {
         const response = await fetch('http://localhost:4000/api/users/register', {
             method: 'POST',
@@ -57,11 +66,6 @@ function RegistrationPage () {
     }
 };
   
-  function handleInput(e) {
-    const newObj = {...values,[e.target.name]: e.target.value}
-    setValues(newObj)
-  }
-
   function handleValidation(e) {
     e.preventDefault();
     setErrors(Validation(values));
@@ -87,7 +91,7 @@ return (
                   onChange={(e)=> {setUsername(e.target.value)}}
                 />
               <label for="floatingInput">Username</label>
-              {errors.name && <p style={{color:"red"}}>{errors.name}</p>}
+              {errors.username && <p style={{color:"red"}}>{errors.username}</p>}
           </div>
               <select className="form-select mb-5" aria-label="Default select example" onChange={(e)=> {setUserRole(e.target.value)}}>
                 <option value="">Choose role</option>
@@ -115,7 +119,7 @@ return (
           placeholder="Password"
           value={password}
           onChange={handlePasswordChange}/>
-        
+          {errors.password && <p style={{color:"red"}}>{errors.password}</p>}
           <label for="floatingPassword">Password</label>
       </div>
       <div className='form-floating mb-3'>

@@ -5,8 +5,8 @@ function Validation(values){
     const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/;
 
 
-    if(values.name === ""){
-        errors.name = "Name is Required!";
+    if(values.username === ""){
+        errors.username = "Name is Required!";
     }
     if(values.email === ""){
         errors.email = "Email is Required!";
