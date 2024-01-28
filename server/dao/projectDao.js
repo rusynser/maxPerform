@@ -35,6 +35,7 @@ class ProjectDao {
     async updateProject(id, updateData) {
         try {
             await this.collection.updateOne({ _id: id }, { $set: updateData });
+            console.log(id);
             return this.getProjectById(id);
         } catch (error) {
             console.error('Error updating project:', error);

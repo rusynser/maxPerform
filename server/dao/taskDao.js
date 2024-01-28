@@ -1,6 +1,6 @@
 // taskDao.js
 import {  client, dbName } from '../db/db.js';
-
+import { ObjectId } from 'mongodb';
 class TaskDao {
   constructor() {
     this.db = client.db(dbName);
@@ -36,12 +36,16 @@ class TaskDao {
   }
 
   async updateTask(id, updateData) {
+    delete updateData.projectId;
+    delete updateData.user;
     try {
-      await this.collection.updateOne({ _id: id }, { $set: updateData });
+        const objectId = new ObjectId(id); // Convert to ObjectId
+        await this.collection.updateOne({ _id: objectId }, { $set: updateData });
+      console.log(updateData);
       return this.getTaskById(id);
     } catch (error) {
-      console.error('Error updating task:', error);
-      throw error;
+      //console.error('Error updating task:', error);
+      //throw error;
     }
   }
 

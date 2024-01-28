@@ -24,7 +24,8 @@ const TaskPage = () => {
   const [selectedState, setSelectedState] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [loading, setLoading] = useState(true); // Loading state
-
+  const [currentTaskId, setCurrentTaskId] = useState(null);
+  
   
     const fetchTasks = async () => {
         // Replace with your API call
@@ -190,7 +191,12 @@ useEffect(() => {
                 <Button variant="danger" style={{ fontSize: "1.1rem", padding: "5px 12px" }} onClick={() => handleDeleteTask(task.id)}>
                   Delete
                 </Button>{" "}
-                <Button variant="warning" style={{ fontSize: "1.1rem", padding: "5px 12px" }} onClick={() => setShowEditModal(true)}>
+                <Button variant="warning" style={{ fontSize: "1.1rem", padding: "5px 12px" }}
+                 
+                 onClick={() => {
+                  setCurrentTaskId(task._id); // Assuming 'task.id' is the ID of the task to edit
+                  setShowEditModal(true);console.log("Editing task with ID:", task._id);
+                }}>
                   Edit
                 </Button>
                
@@ -232,17 +238,18 @@ useEffect(() => {
           />
 
           <EditTaskForm
-         show={showEditModal}
-         handleClose={() => {
+          taskId={currentTaskId} 
+          show={showEditModal}
+          handleClose={() => {
            setShowEditModal(false);
            setSelectedTask(null);
          }}
-         handleEditTask={handleEditTask}
-         handleUpdateTask={handleUpdateTask}
-         task={selectedTask}
+              handleEditTask={handleEditTask}
+              handleUpdateTask={handleUpdateTask}
+              task={selectedTask}
           />
-          {selectedTask && (
-            <TaskDetail
+            {selectedTask && (
+          <TaskDetail
               task={selectedTask}
               show={showTaskDetail}
               handleClose={handleCloseTaskDetail}

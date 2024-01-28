@@ -1,24 +1,68 @@
-import React, { useState } from "react";
-import { Form, Button, Modal } from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Modal, Alert } from 'react-bootstrap';
 
-const EditTaskForm = ({ show, handleClose, handleEditTask }) => {
-  const [editTaskName, setEditTaskName] = useState("");
-  const [editTaskDescription, setEditTaskDescription] = useState("");
-  const [editTaskPriority, setEditTaskPriority] = useState("must-have");
-  const [editTaskState, setEditTaskState] = useState("in-progress");
-  const [editTaskTime, setEditTaskTime] = useState(""); 
-  const [editTaskTags, setEditTaskTags] = useState(""); 
+function EditTaskForm({ show, handleClose, taskId, fetchTasks }) {
+  const [taskData, setTaskData] = useState({
+    name: '',
+    description: '',
+    priority: '',
+    state: '',
+    time: '',
+    tags: ''
+  });
+  const [error, setError] = useState('');
 
-  const handleEditClick = () => {
-    handleEditTask({
-      name: editTaskName,
-      description: editTaskDescription,
-      priority: editTaskPriority,
-      state: editTaskState,
-      time: editTaskTime, 
-      tags: editTaskTags, 
-    });
+  useEffect(() => {
+    if (show && taskId) {
+      // Fetch the task data and populate the form
+      fetchTaskData();
+    }
+  }, [show, taskId]);
+
+  const fetchTaskData = async () => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/tasks/${taskId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setTaskData(data);
+      } else {
+        setError('Failed to fetch task data');
+      }
+    } catch (error) {
+      setError('Error fetching task data');
+    }
   };
+
+  const handleUpdateTask = async () => {
+    const { _id, ...updatePayload } = taskData;
+    try {
+      const response = await fetch(`http://localhost:4000/api/tasks/${taskId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          
+        },
+        credentials: 'include', 
+        body: JSON.stringify(updatePayload),
+      });
+
+      if (!response.ok) {fetchTasks(); 
+        handleClose();
+        
+      } else {
+        
+      }
+    } catch (error) {
+      fetchTasks(); 
+        handleClose();
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setTaskData({ ...taskData, [e.target.name]: e.target.value });
+  };
+
+  // ... Form rendering with existing task data ...
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -26,78 +70,85 @@ const EditTaskForm = ({ show, handleClose, handleEditTask }) => {
         <Modal.Title>Edit Task</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {error && <Alert variant="danger">{error}</Alert>}
         <Form>
-          <Form.Group className="mb-3" controlId="editTaskName">
+          <Form.Group className="mb-3" controlId="taskName">
             <Form.Label>Task Name</Form.Label>
             <Form.Control
               type="text"
-              value={editTaskName}
-              onChange={(e) => setEditTaskName(e.target.value)}
+              name="name"
+              value={taskData.name}
+              onChange={handleInputChange}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="editTaskDescription">
+
+          <Form.Group className="mb-3" controlId="taskDescription">
             <Form.Label>Task Description</Form.Label>
             <Form.Control
               as="textarea"
-              rows={5}
-              value={editTaskDescription}
-              onChange={(e) => setEditTaskDescription(e.target.value)}
+              rows={3}
+              name="description"
+              value={taskData.description}
+              onChange={handleInputChange}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="editTaskPriority">
+
+          <Form.Group className="mb-3" controlId="taskPriority">
             <Form.Label>Task Priority</Form.Label>
             <Form.Control
               as="select"
-              value={editTaskPriority}
-              onChange={(e) => setEditTaskPriority(e.target.value)}
+              name="priority"
+              value={taskData.priority}
+              onChange={handleInputChange}
             >
-              <option value="must-have">Must Have</option>
-              <option value="should-have">Should Have</option>
-              <option value="could-have">Could Have</option>
-              <option value="dont-have">Don't Have</option>
+              <option value="Must Have">Must Have</option>
+              <option value="Should Have">Should Have</option>
+              <option value="Could Have">Could Have</option>
+              <option value="Don't Have">Don't Have</option>
             </Form.Control>
           </Form.Group>
-          <Form.Group className="mb-3" controlId="editTaskState">
+
+          <Form.Group className="mb-3" controlId="taskState">
             <Form.Label>Task State</Form.Label>
             <Form.Control
               as="select"
-              value={editTaskState}
-              onChange={(e) => setEditTaskState(e.target.value)}
+              name="state"
+              value={taskData.state}
+              onChange={handleInputChange}
             >
-              <option value="in-progress">In Progress</option>
-              <option value="solved">Solved</option>
-              <option value="waiting">Waiting</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Solved">Solved</option>
+              <option value="Waiting">Waiting</option>
             </Form.Control>
           </Form.Group>
-          <Form.Group className="mb-3" controlId="editTaskTime">
+
+          <Form.Group className="mb-3" controlId="taskTime">
             <Form.Label>Time (hours)</Form.Label>
             <Form.Control
               type="number"
-              value={editTaskTime}
-              onChange={(e) => setEditTaskTime(e.target.value)}
-              placeholder="Enter time in hours"
+              name="time"
+              value={taskData.time}
+              onChange={handleInputChange}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="editTaskTags">
+
+          <Form.Group className="mb-3" controlId="taskTags">
             <Form.Label>Tags</Form.Label>
             <Form.Control
               type="text"
-              value={editTaskTags}
-              onChange={(e) => setEditTaskTags(e.target.value)}
+              name="tags"
+              value={taskData.tags}
+              onChange={handleInputChange}
             />
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={handleEditClick}>
-          Edit Task
-        </Button>
+        <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+        <Button variant="primary" onClick={handleUpdateTask}>Update Task</Button>
       </Modal.Footer>
     </Modal>
   );
-};
+}
 
 export default EditTaskForm;

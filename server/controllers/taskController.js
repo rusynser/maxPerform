@@ -36,7 +36,7 @@ export const getTaskById = async (req, res) => {
 
 export const updateTask = async (req, res) => {
     try {
-        const id = new ObjectId(req.params.id);
+        const id = (req.params.id);
         const updateData = req.body;
         const updatedTask = await TaskDao.updateTask(id, updateData);
         res.json(updatedTask);
