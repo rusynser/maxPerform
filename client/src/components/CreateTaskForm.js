@@ -117,7 +117,10 @@ function CreateTaskForm({ show, handleClose, projectId ,fetchTasks}) {
           <Form.Control
             type="number"
             value={newTaskTime}
+            min={1}
+            max={50}
             onChange={(e) => setNewTaskTime(e.target.value)}
+            
           />
         </Form.Group>
 

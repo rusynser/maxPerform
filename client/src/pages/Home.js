@@ -67,11 +67,11 @@ useEffect(() => {
     return [];
   };
 
-  const handleDelete = (projectId) => {
-    setProjects((prevProjects) =>
-      prevProjects.filter((project) => project.id !== projectId)
-    );
-  };
+  //const handleDelete = (projectId) => {
+    //setProjects((prevProjects) =>
+      //prevProjects.filter((project) => project.id !== projectId)
+    //);
+  //};
 
   const handleUpdate = () => {
     setProjects((prevProjects) =>
@@ -207,14 +207,14 @@ useEffect(() => {
                   >
                     Update
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="danger"
                     className="ml-2"
                     style={{ fontSize: "1.1rem", padding: "5px 12px", marginBottom: "10px" }}
                     onClick={() => handleDelete(project.id)}
                   >
                     Delete
-                  </Button>
+                  </Button> */}
                 </Card.Body>
                 <Card.Footer className="text-muted">{/* Any additional info */}</Card.Footer>
               </Card>
