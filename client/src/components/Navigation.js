@@ -18,9 +18,6 @@ function Navigation() {
 
   return (
     <div style={breadcrumbStyle}>
-     <a class="nav-link">
-        <Link to="/projects" style={linkStyle}>Projects</Link>
-        </a>
       <div style={{ marginLeft: 'auto', display: 'flex', gap: '20px' }}>
        <a class="nav-link">
           <Link to="/registration" style={linkStyle}>Registration</Link>

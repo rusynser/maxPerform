@@ -1,8 +1,6 @@
 import { useState} from 'react'; // Import React if needed
 import { Link, useNavigate} from 'react-router-dom'; // Import Link
-import { Button, Form, Alert } from 'react-bootstrap';
 import "./styles.css";
-import Validation from '../components/Validation';
 import Navigation from '../components/Navigation';
 
 function RegistrationPage () {
@@ -17,30 +15,26 @@ function RegistrationPage () {
   const [email, setEmail] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
-  const [errors, setErrors] = useState({})
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const navigate = useNavigate();
   
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
+    setIsButtonDisabled(newPassword.length < 6 || newPassword !== confirmPassword);
+    setPasswordErrorMessage(newPassword.length >= 6 ? '' : 'Password must be at least 6 characters long');
   };
 
   const handleConfirmPasswordChange = (e) => {
     const newConfirmPassword = e.target.value;
     setConfirmPassword(newConfirmPassword);
     setIsPasswordMatch(newConfirmPassword === password);
+    setIsButtonDisabled(password.length < 6 || newConfirmPassword !== password);
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    handleValidation(event);
-
-  // Проверяем наличие ошибок валидации
-  if (Object.keys(errors).length > 0) {
-    console.log('Валидация не пройдена');
-    return;
-  }
 
     try {
         const response = await fetch('http://localhost:4000/api/users/register', {
@@ -55,7 +49,6 @@ function RegistrationPage () {
         if (response.ok) {
             const data = await response.json();
             console.log('Registration successful:', data);
-            // Handle successful registration
             navigate('/');
         } else {
             // Handle errors
@@ -66,10 +59,6 @@ function RegistrationPage () {
     }
 };
   
-  function handleValidation(e) {
-    e.preventDefault();
-    setErrors(Validation(values));
-  }
 
 return (
   <div>
@@ -91,14 +80,13 @@ return (
                   onChange={(e)=> {setUsername(e.target.value)}}
                 />
               <label for="floatingInput">Username</label>
-              {errors.username && <p style={{color:"red"}}>{errors.username}</p>}
           </div>
               <select className="form-select mb-5" aria-label="Default select example" onChange={(e)=> {setUserRole(e.target.value)}}>
                 <option value="">Choose role</option>
                 <option value="customer">Customer</option>
                 <option value="freelancer">Freelancer</option>
             </select>
-              
+            
           <div class="form-floating mb-3">
               <input 
                 type="email" 
@@ -108,7 +96,6 @@ return (
                 onChange={(e)=> {setEmail(e.target.value)}}
               />
                 <label for="floatingInput">Email address</label>
-              {errors.email && <p style={{color:"red"}}>{errors.email}</p>}
           </div>
           <div className='form-floating mb-3'>
         <input
@@ -119,7 +106,7 @@ return (
           placeholder="Password"
           value={password}
           onChange={handlePasswordChange}/>
-          {errors.password && <p style={{color:"red"}}>{errors.password}</p>}
+        {passwordErrorMessage && <p style={{ color: 'red' }}>{passwordErrorMessage}</p>}
           <label for="floatingPassword">Password</label>
       </div>
       <div className='form-floating mb-3'>
@@ -139,9 +126,10 @@ return (
           
           <div className='text-center'>
         
-            <button type='submit' className='sign-up-btn py-3 rounded-4'>
+            <button type='submit' className='sign-up-btn py-3 rounded-4' disabled={isButtonDisabled}>
               Registrate
             </button>
+            
           
           </div>
 
