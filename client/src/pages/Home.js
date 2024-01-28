@@ -117,8 +117,9 @@ useEffect(() => {
     <div>
       <NavigationForPages/>
     <div style={{ background: "#70DFE0", padding: "20px", minHeight: "100vh" }}>
-      <h2 className="mb-4">Main Page</h2>
-
+    {userData.userRole === "customer" && (
+      <h2 className="mb-4">{userData.userName} projects</h2>
+    )}
       <div className="mb-3">
         <div
           style={{
