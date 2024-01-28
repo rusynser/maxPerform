@@ -32,6 +32,7 @@ function Home  () {
             if (response.ok) {
                 const data = await response.json();
                 setProjects(data);
+                console.log(userData.userName);
             } else {
                 console.error('Failed to fetch projects', await response.text());
             }

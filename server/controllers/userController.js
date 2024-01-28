@@ -29,9 +29,10 @@ export const loginUser = async (req, res) => {
         if (user && await bcrypt.compare(password, user.password)) {
             req.session.userId = user._id;
             req.session.role = user.role;
+            req.session.userName=user.username;
             // In a real app, you should issue a token (e.g., JWT)
             console.log(user.role);
-            res.json({ message: 'Login successful',userId: user._id,userRole:user.role });
+            res.json({ message: 'Login successful',userId: user._id,userRole:user.role,userName:user.username });
         } else {
             res.status(401).json({ message: 'Invalid credentials' });
         }

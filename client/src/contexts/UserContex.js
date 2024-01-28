@@ -12,7 +12,7 @@ export const useUser = () => {
 };
 
 export const UserProvider = ({ children }) => {
-    const [userData, setUserData] = useState({ userId: null, userRole: null });
+    const [userData, setUserData] = useState({ userId: null, userRole: null ,userName:null});
 
     return (
         <UserContext.Provider value={{ userData, setUserData}}>

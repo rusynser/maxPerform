@@ -27,7 +27,8 @@ function  LoginPage() {
               // Store user data in state, context, or other state management solution
               setUserData({
                   userId: data.userId,
-                  userRole: data.userRole
+                  userRole: data.userRole,
+                  userName:data.userName,
                 });// Store the user ID
                 navigate('/projects'); 
             } else {
