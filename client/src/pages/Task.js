@@ -153,24 +153,25 @@ useEffect(() => {
           </Form>
 
           <h3>Tasks</h3>
+          {userData.userRole === 'freelancer' && (
           <Button
-      
             style={{ fontSize: "1.1rem", marginLeft: "1300px", marginTop:"-100px" }}
             class="btn btn-primary btn-lg"
             onClick={() => setShowCreateModal(true)}
-            disabled={userData.userRole !== 'freelancer'}
           >
             Create Task
           </Button>
+          )}
+          {userData.userRole === 'customer' && (
           <Button
       
       style={{ fontSize: "1.1rem", marginLeft: "1190px", marginTop:"-150px", padding:"18px 10px" }}
       class="btn btn-primary btn-lg"
             onClick={() => setShowAddUserModal(true)}
-            disabled={userData.userRole !== 'customer'}
           >
             Add User
           </Button>
+          )}
           <ListGroup>
             {filteredTasks.map((task) => (
               <ListGroup.Item key={task.id} style={{fontSize:"1.2rem", borderWidth:"2.5px"}}>

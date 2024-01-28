@@ -67,11 +67,11 @@ useEffect(() => {
     return [];
   };
 
-  const handleDelete = (projectId) => {
-    setProjects((prevProjects) =>
-      prevProjects.filter((project) => project.id !== projectId)
-    );
-  };
+  //const handleDelete = (projectId) => {
+    //setProjects((prevProjects) =>
+      //prevProjects.filter((project) => project.id !== projectId)
+    //);
+  //};
 
   const handleUpdate = () => {
     setProjects((prevProjects) =>
@@ -109,9 +109,6 @@ useEffect(() => {
     setShowCreateModal(false);
     
   };
-  const handleProjectClick = (projectId) => {
-    navigate(`/project/${projectId}`);
-};
 
   return (
     <div>
@@ -153,20 +150,19 @@ useEffect(() => {
             Unsolved Projects
           </Button>
         </div>
-        <Button
-                          
+        {userData.userRole === 'customer' && (
+        <Button 
           variant="light"
           style={{ fontSize: "1.1rem", padding: "12px 14px" }}
           onClick={handleShowCreateModal}
-          disabled={userData.userRole !== 'customer'}
           className="mt-3"
         >
           Create Project
         </Button>
+        )}
       </div>
-      <div style={{ background: "white", padding: "40px", borderRadius: "3px" }}>
-        <h3 className="mb-3">Example Projects</h3>
-        
+      <div style={{ background: "white", padding: "40px", borderRadius: "3px" , marginTop:"80px" }}>
+        <h3 className="mb-3">Projects</h3>
         <Row>
           {filteredProjects().map((project, index, array) => (
             <Col key={project.id} lg={4} className="mb-4">
@@ -211,14 +207,14 @@ useEffect(() => {
                   >
                     Update
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="danger"
                     className="ml-2"
                     style={{ fontSize: "1.1rem", padding: "5px 12px", marginBottom: "10px" }}
                     onClick={() => handleDelete(project.id)}
                   >
                     Delete
-                  </Button>
+                  </Button> */}
                 </Card.Body>
                 <Card.Footer className="text-muted">{/* Any additional info */}</Card.Footer>
               </Card>
@@ -231,7 +227,7 @@ useEffect(() => {
   show={showCreateModal}
   handleClose={handleCloseCreateModal}
   handleCreate={handleCreateProject}
-  fetchProjects={fetchProjects}
+  
 />
 
       <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)} dialogClassName="modal-90w">
