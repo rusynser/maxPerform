@@ -4,7 +4,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { useUser } from '../contexts/UserContex'
 
 
-function CreateProject({ show, handleClose }) {
+function CreateProject({ show, handleClose,fetchProjects }) {
   const { userData } = useUser()
   const [newProjectName, setNewProjectName] = useState('');
   const [newProjectDescription, setNewProjectDescription] = useState('');
@@ -27,7 +27,8 @@ function CreateProject({ show, handleClose }) {
         });
 
         if (response.ok) {
-            console.log('Project created successfully');
+          fetchProjects();
+          console.log('Project created successfully');
         } else {
             console.error('Failed to create project');
         }

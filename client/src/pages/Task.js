@@ -25,7 +25,7 @@ const TaskPage = () => {
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [loading, setLoading] = useState(true); // Loading state
 
-  useEffect(() => {
+  
     const fetchTasks = async () => {
         // Replace with your API call
         setLoading(true);
@@ -42,7 +42,7 @@ const TaskPage = () => {
         }
         setLoading(false);
     };
-
+useEffect(() => {
     fetchTasks();
 }, [projectId]);
 
@@ -157,7 +157,7 @@ const TaskPage = () => {
             style={{ fontSize: "1.1rem", marginLeft: "1300px", marginTop:"-100px" }}
             class="btn btn-primary btn-lg"
             onClick={() => setShowCreateModal(true)}
-            
+            disabled={userData.userRole !== 'freelancer'}
           >
             Create Task
           </Button>
@@ -203,7 +203,7 @@ const TaskPage = () => {
             ))}
           </ListGroup>
 
-          <CreateTaskForm
+          <CreateTaskForm projectId={projectId} 
             show={showCreateModal}
             handleClose={() => {
               setShowCreateModal(false);
@@ -212,6 +212,7 @@ const TaskPage = () => {
             handleCreateTask={handleCreateTask}
             handleUpdateTask={handleUpdateTask}
             task={selectedTask}
+            fetchTasks={fetchTasks}
           />
 
           <CommentForm
@@ -222,7 +223,7 @@ const TaskPage = () => {
           }}
           />
 
-<AddUserForm projectId={projectId} 
+          <AddUserForm projectId={projectId} 
            show={showAddUserModal}
            handleClose={() => {
             setShowAddUserModal(false);

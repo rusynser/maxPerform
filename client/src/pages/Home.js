@@ -231,7 +231,7 @@ useEffect(() => {
   show={showCreateModal}
   handleClose={handleCloseCreateModal}
   handleCreate={handleCreateProject}
-  
+  fetchProjects={fetchProjects}
 />
 
       <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)} dialogClassName="modal-90w">
