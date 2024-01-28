@@ -76,7 +76,7 @@ return (
                   type='username'
                   className='form-control'
                   id='username'
-                  placeholder='name@example.com'
+                  placeholder="Username"
                   onChange={(e)=> {setUsername(e.target.value)}}
                 />
               <label for="floatingInput">Username</label>
@@ -86,7 +86,7 @@ return (
                 <option value="customer">Customer</option>
                 <option value="freelancer">Freelancer</option>
             </select>
-            
+
           <div class="form-floating mb-3">
               <input 
                 type="email" 
